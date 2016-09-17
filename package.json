@@ -1,0 +1,37 @@
+{
+  "name": "stathead",
+  "version": "1.0.0",
+  "description": "sport stats metrics",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TGreen97/statHead.git"
+  },
+  "author": "todd green",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TGreen97/statHead/issues"
+  },
+  "homepage": "https://github.com/TGreen97/statHead#readme",
+  "dependencies": {
+    "axios": "^0.14.0",
+    "body-parser": "^1.15.2",
+    "core-js": "^2.4.1",
+    "express": "^4.14.0",
+    "mongoose": "^4.6.0",
+    "morgan": "^1.7.0",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+  },
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "webpack": "^1.13.2"
+  }
+}
