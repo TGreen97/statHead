@@ -7,6 +7,7 @@ var request = require('request');
 var cheerio = require('cheerio');
 //Require Users Schema
 var Users = require('./models/users.js');
+var Stats = require('./models/stats.js');
 
 // Create Instance of Express
 var app = express();
@@ -42,6 +43,92 @@ db.once('open', function () {
 app.get('/', function(req, res){
   res.sendFile('./public/index.html');
 })
+
+// =========== ROUTES ============
+
+// Index Route
+// app.get('/', function(req, res) {
+//   res.send(index.html);
+// });
+
+// GET to Scrape website
+app.get('/scrape', function(req, res) {
+// Use a request to grab the body of the HTML
+  request('https://www.reddit.com/r/sports/', function(error, response, html) {
+// Take body of HTML and load into Cheerio and save it to $ as a Selector
+    var $ = cheerio.load(html);
+// Grab every h2 within the article Tag and perform the function
+    $('p.title').each(function(i, element) {
+// Save an Empty Result Object
+      var result = {};
+// Add & Save Text & HREF of every link to Result Object
+      result.title = $(this).children('a').text();
+      result.link = $(this).children('a').attr('href');
+// Use Article Model to create a new Entry
+      var entry = new Stats(result);
+// Save Article Object to Entry
+      entry.save(function(err, doc) {
+        if (err) {
+          console.log(err);
+        }
+        else {
+          console.log(doc);
+        }
+      });
+    });
+  });
+// Notification that the Scrape is finished
+  res.send('Send complete');
+});
+
+// GET articles scraped from mongoDB
+app.get('/stats', function(req, res) {
+  Stats.find({}, function(err, doc) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      res.json(doc);
+    }
+  });
+});
+
+// GET article by its ObjectID
+// app.get('/articles/:id', function(req, res) {
+// // Use the ID from the parameter and prepare a query that finds the matching one in the db
+//   Article.findOne({'_id': req.params.id})
+//   .populate('message')
+//   .exec(function(err, doc) {
+//     if (err) {
+//       console.log(err);
+//     }
+//     else {
+//       res.json(doc);
+//     }
+//   });
+// });
+
+// Replace an existing Message on an Article with a new one, and if no message exists for an Article, make the posted Message it's Message
+// app.post('/articles/:id', function(req, res) {
+//   var newMessage = new Message(req.body);
+
+//   newMessage.save(function(err, doc) {
+//     if (err) {
+//       console.log(err);
+//     }
+//     else {
+//       Article.findOneAndUpdate({'_id': req.params.id}, {'message':doc._id})
+//       .exec(function(err, doc) {
+//         if (err) {
+//           console.log(err);
+//         }
+//         else {
+//           res.send(doc);
+//         }
+//       });
+//     }
+//   });
+// });
 
 // This is the route we will send GET requests to retrieve our most recent search data.
 // We will call this route the moment our page gets rendered
