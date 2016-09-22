@@ -15,8 +15,8 @@ var Main = React.createClass({
   $.getJSON('/stats', function(data) {
     for (var i=0; i<data.length; i++) {
       $('#stats').append('<div class="well well-sm"> <p data-id="' + data[i]._id + '">'+ data[i].title + '<br />'+ data[i].link + '</p> </div>');
-  }
-});
+  },
+// });
   // Here we set a generic state associated with the number of clicks
   // getInitialState: function(){
   //   return {
@@ -76,20 +76,20 @@ var Main = React.createClass({
   // },
 
   // The moment the page renders get the History
-  componentDidMount: function(){
+  // componentDidMount: function(){
 
-    // Get the latest stats.
-    helpers.getStats()
-      .then(function(response){
-        if (response != this.state.stats){
-          console.log ("Stats", response.data);
+  //   // Get the latest stats.
+  //   helpers.getStats()
+  //     .then(function(response){
+  //       if (response != this.state.stats){
+  //         console.log ("Stats", response.data);
 
-          this.setState({
-            stats: response.data
-          })
-        }
-      }.bind(this))
-  },
+  //         this.setState({
+  //           stats: response.data
+  //         })
+  //       }
+  //     }.bind(this))
+  // },
 
   // Here we render the function
   render: function(){
@@ -103,7 +103,7 @@ var Main = React.createClass({
             <p className="text-center"><em>Lorem Ipsum. We gonna stat.</em></p>
           </div>
 
-        // <div id="stats" className="col-md-6">
+         <div id="stats" className="col-md-6">
             </div>
 
           <div className="col-md-6">

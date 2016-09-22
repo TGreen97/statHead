@@ -54,19 +54,25 @@ app.get('/', function(req, res){
 // GET to Scrape website
 app.get('/scrape', function(req, res) {
 // Use a request to grab the body of the HTML
-  request('https://www.reddit.com/r/sports/', function(error, response, html) {
+  // request('https://www.reddit.com/r/sports/',
+  request('http://www.basketball-reference.com/leagues/NBA_2016_advanced.html',
+    function(error, response, html) {
+     // console.log(html)
 // Take body of HTML and load into Cheerio and save it to $ as a Selector
     var $ = cheerio.load(html);
-// Grab every h2 within the article Tag and perform the function
-    $('p.title').each(function(i, element) {
-// Save an Empty Result Object
-      var result = {};
-// Add & Save Text & HREF of every link to Result Object
-      result.title = $(this).children('a').text();
-      result.link = $(this).children('a').attr('href');
-// Use Article Model to create a new Entry
+
+  //  console.log($(".row").text());
+// // Grab every h2 within the article Tag and perform the function
+    $('td.left').each(function(i, element) {
+// // Save an Empty Result Object
+       var result = {};
+        console.log(result);
+// // Add & Save Text & HREF of every link to Result Object
+      result.player = $(this).children('a').text();
+      result.link = $(this).children('a').text();
+// // Use Article Model to create a new Entry
       var entry = new Stats(result);
-// Save Article Object to Entry
+// // Save Article Object to Entry
       entry.save(function(err, doc) {
         if (err) {
           console.log(err);
