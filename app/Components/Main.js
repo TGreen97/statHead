@@ -12,7 +12,7 @@ var helpers = require('./Utils/helpers.js');
 // This is the main component.
 var Main = React.createClass({
   // Get Articles as a JSON
-  $.getJSON('/stats', function(data) {
+  $.getJSON('/StatsNBAPlayer', function(data) {
     for (var i=0; i<data.length; i++) {
       $('#stats').append('<div class="well well-sm"> <p data-id="' + data[i]._id + '">'+ data[i].title + '<br />'+ data[i].link + '</p> </div>');
   },

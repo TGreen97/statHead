@@ -7,7 +7,7 @@ var request = require('request');
 var cheerio = require('cheerio');
 //Require Users Schema
 var Users = require('./models/users.js');
-var Stats = require('./models/stats.js');
+var Stats_NBA_Player = require('./models/stats_NBA-Player.js');
 
 // Create Instance of Express
 var app = express();
@@ -63,15 +63,42 @@ app.get('/scrape', function(req, res) {
 
   //  console.log($(".row").text());
 // // Grab every h2 within the article Tag and perform the function
-    $('td.left').each(function(i, element) {
+    $('#advanced_stats .full_table').each(function(i, element) {
 // // Save an Empty Result Object
-       var result = {};
+      // playerRow = $(this).text().trim();
+      // console.log($(this).text().trim());
+      var result = {};
         console.log(result);
-// // Add & Save Text & HREF of every link to Result Object
-      result.player = $(this).children('a').text();
-      result.link = $(this).children('a').text();
+// Add & Save Text & HREF of every link to Result Object
+      result.player = $(this).find("[data-stat='player']").text();
+      result.position = $(this).find("[data-stat='pos']").text();
+      result.age = $(this).find("[data-stat='age']").text();
+      result.team = $(this).find("[data-stat='team_id']").text();
+      result.games = $(this).find("[data-stat='g']").text();
+      result.minsPlayed = $(this).find("[data-stat='mp']").text();
+      result.perRtg = $(this).find("[data-stat='per']").text();
+      result.trShtPct = $(this).find("[data-stat='ts_pct']").text();
+      result.threePtAttRt = $(this).find("[data-stat='fg3a_per_fga_pct']").text();
+      result.ftAttRt = $(this).find("[data-stat='fta_per_fga_pct']").text();
+      result.offRebPct = $(this).find("[data-stat='orb_pct']").text();
+      result.defRebPct = $(this).find("[data-stat='drb_pct']").text();
+      result.totalRebPct = $(this).find("[data-stat='trb_pct']").text();
+      result.asstPct = $(this).find("[data-stat='ast_pct']").text();
+      result.stelPct = $(this).find("[data-stat='stl_pct']").text();
+      result.blokPct = $(this).find("[data-stat='blk_pct']").text();
+      result.trnOverPct = $(this).find("[data-stat='tov_pct']").text();
+      result.usagePct = $(this).find("[data-stat='usg_pct']").text();
+      result.offWinShare = $(this).find("[data-stat='ows']").text();
+      result.defWinShare = $(this).find("[data-stat='dws']").text();
+      result.totWinShare = $(this).find("[data-stat='ws']").text();
+      result.p48WinShare = $(this).find("[data-stat='ws_per_48']").text();
+      result.offPlusMinus = $(this).find("[data-stat='obpm']").text();
+      result.defPlusMinus = $(this).find("[data-stat='dbpm']").text();
+      result.boxPlusMinus = $(this).find("[data-stat='bpm']").text();
+      result.vORP = $(this).find("[data-stat='vorp']").text();
+
 // // Use Article Model to create a new Entry
-      var entry = new Stats(result);
+      var entry = new Stats_NBA_Player(result);
 // // Save Article Object to Entry
       entry.save(function(err, doc) {
         if (err) {
@@ -88,8 +115,8 @@ app.get('/scrape', function(req, res) {
 });
 
 // GET articles scraped from mongoDB
-app.get('/stats', function(req, res) {
-  Stats.find({}, function(err, doc) {
+app.get('/StatsNBAPlayer', function(req, res) {
+  Stats_NBA_Player.find({}, function(err, doc) {
     if (err) {
       console.log(err);
     }

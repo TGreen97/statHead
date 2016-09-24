@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var statsSchema = new Schema({
+var stats_NBAPlayerSchema = new Schema({
   player: {
     type: String,
   },
@@ -85,5 +85,5 @@ var statsSchema = new Schema({
   // }
 });
 
-var Stats = mongoose.model('Stats', statsSchema);
-module.exports = Stats;
+var Stats_NBA_Player = mongoose.model('Stats_NBA_Player', stats_NBAPlayerSchema);
+module.exports = Stats_NBA_Player;
