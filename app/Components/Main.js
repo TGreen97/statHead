@@ -1,6 +1,6 @@
 // Include React
 var React = require('react');
-
+var axios = require('axios');
 // Here we include all of the sub-components
 // var Form = require('./Children/Form');
 // var Results = require('./Children/Results');
@@ -11,11 +11,41 @@ var helpers = require('./Utils/helpers.js');
 
 // This is the main component.
 var Main = React.createClass({
-  // Get Articles as a JSON
-  $.getJSON('/StatsNBAPlayer', function(data) {
-    for (var i=0; i<data.length; i++) {
-      $('#stats').append('<div class="well well-sm"> <p data-id="' + data[i]._id + '">'+ data[i].title + '<br />'+ data[i].link + '</p> </div>');
+  getInitialState: function(){
+    return {
+      // searchTerm: "",
+      // isLoggedIn= false;
+      statResults: "",
+      // history: [] /*Note how we added in this history state variable*/
+    }
   },
+
+  componentWillMount: function(){
+   // Get Player stats as a JSON
+    // var statResults = [];
+
+    helpers.getStats()
+      .then(function(response) {
+        // console.log("Stats", response.data);
+
+        this.setState({
+          statResults: response.data
+        })
+      }.bind(this))
+  },
+
+    // $.getJSON('/StatsNBAPlayer', function(data) {
+    //   for (var i=0; i<data.length; i++) {
+    //     $('#stats').append('<div class="well well-sm"> <p data-id="' + data[i]._id + '">'+ data[i].title + '<br />'+ data[i].link + '</p> </div>');
+    // }
+
+  //   axios.get('/StatsNBAPlayer')
+  //     .then(function(results){
+  //       this.setState({
+
+  //       })
+  //     })
+  // }
 // });
   // Here we set a generic state associated with the number of clicks
   // getInitialState: function(){
@@ -93,31 +123,45 @@ var Main = React.createClass({
 
   // Here we render the function
   render: function(){
+    console.log("rendered")
 
+    var myStats = null;
+
+    // Login authentication here
+    if (this.state.statResults) {
+      console.log("function ran")
+      myStats = this.state.statResults.map(function(data, index){
+        return <div key={index} className="streamItem-cardInner streamItem-cardInner--postPreview layoutSingleColumn">
+        <span> { data.player } </span>
+        <span> { data.position } </span>
+        <span> { data.perRtg } </span>
+        </div>
+      })
+    }
     return(
 
-      <div className="container">
-        <div className="row">
+      <div className="container">{ myStats }</div>
+    )
+  }
+});
+    /*
+<div className="row">
           <div className="jumbotron">
             <h2 className="text-center">Stats!</h2>
             <p className="text-center"><em>Lorem Ipsum. We gonna stat.</em></p>
           </div>
 
          <div id="stats" className="col-md-6">
-            </div>
+            { statResults }
+         </div>
 
-          <div className="col-md-6">
-            <Results stats={this.state.stats} />
-          </div>
-        </div>
+           <div className="col-md-6">
+             <Results stats={this.state.stats} />
+           </div>
+         </div>
 
         <div className="row">
           <History stats={this.state.stats}/>
-        </div>
-      </div>
-    )
-  }
-});
-
+        </div> */
 // Export the component back for use in other files
 module.exports = Main;
