@@ -22998,8 +22998,16 @@
 	      console.log(response);
 	      return response;
 	    });
-	  }
+	  },
 
+	  getStatsMLB: function getStatsMLB() {
+
+	    return axios.get('/StatsMLBPlayer').then(function (response) {
+
+	      console.log(response);
+	      return response;
+	    });
+	  }
 	};
 
 	// We export the helpers function

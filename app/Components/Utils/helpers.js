@@ -30,6 +30,15 @@ var helpers = {
       });
   },
 
+  getStatsMLB: function(){
+
+    return axios.get('/StatsMLBPlayer')
+      .then(function(response){
+
+        console.log(response);
+        return response;
+      });
+  },
   // This function posts new searches to our database.
   // postStats: function(results){
 
