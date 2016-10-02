@@ -131,7 +131,7 @@ var Main = React.createClass({
     if (this.state.statResults) {
       console.log("function ran")
       myStats = this.state.statResults.map(function(data, index){
-        return <div key={index} className="streamItem-cardInner streamItem-cardInner--postPreview layoutSingleColumn">
+        return <div key={index} className="title dark pitcher-container">
         <span> { data.player } </span>
         <span> { data.position } </span>
         <span> { data.perRtg } </span>

@@ -21568,7 +21568,7 @@
 	      myStats = this.state.statResults.map(function (data, index) {
 	        return React.createElement(
 	          'div',
-	          { key: index, className: 'streamItem-cardInner streamItem-cardInner--postPreview layoutSingleColumn' },
+	          { key: index, className: 'title dark pitcher-container' },
 	          React.createElement(
 	            'span',
 	            null,

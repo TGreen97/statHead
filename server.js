@@ -8,7 +8,8 @@ var cheerio = require('cheerio');
 //Require Users Schema
 var Users = require('./models/users.js');
 var Stats_NBA_Player = require('./models/stats_NBA-Player.js');
-var Stats_MLB_Player = require('./models/stats_MLB-Player.js')
+var Stats_MLB_Batting = require('./models/stats_MLB-Batting.js')
+var Stats_MLB_Pitching = require('./models/stats_MLB-Pitching.js')
 
 // Create Instance of Express
 var app = express();
@@ -111,7 +112,110 @@ app.get('/scrape', function(req, res) {
 //     });
 //   });
 
-  request('http://www.fangraphs.com/leaders.aspx?pos=all&stats=bat&lg=all&qual=y&type=8&season=2016&month=0&season1=2016&ind=0&team=0&rost=0&age=0&filter=&players=0&page=1_150',
+//   request('http://www.fangraphs.com/leaders.aspx?pos=all&stats=bat&lg=all&qual=y&type=1&season=2016&month=0&season1=2016&ind=0&team=0&rost=0&age=0&filter=&players=0&page=1_150',
+//     function(error, response, html) {
+//      //console.log(html)
+// // Take body of HTML and load into Cheerio and save it to $ as a Selector
+//     var $ = cheerio.load(html);
+
+//   //  console.log($(".row").text());
+// // // Grab every h2 within the article Tag and perform the function
+//     $('#LeaderBoard1_dg1 .rgMasterTable tr.rgRow,.rgAltRow').each(function(i, element) {
+// // // Save an Empty Result Object
+//       // playerRow = $(this).text().trim();
+//       //console.log($(this).text().trim());
+//       var result = {};
+//         console.log(result);
+// // Add & Save Text & HREF of every link to Result Object
+//       result.rank = $(this).find("td:first-child").text().trim();
+//       result.name = $(this).find("td:nth-child(2)").text().trim();
+//       result.team = $(this).find("td:nth-child(3)").text().trim();
+//       result.plateApps = $(this).find("td:nth-child(4)").text().trim();
+//       result.bbPct = $(this).find("td:nth-child(5)").text().trim();
+//       result.kPct = $(this).find("td:nth-child(6)").text().trim().trim();
+//       result.bbPerK = $(this).find("td:nth-child(7)").text().trim();
+//       result.aVG = $(this).find("td:nth-child(8)").text().trim();
+//       result.oBP = $(this).find("td:nth-child(9)").text().trim();
+//       result.sLGPct = $(this).find("td:nth-child(10)").text().trim();
+//       result.oPS = $(this).find("td:nth-child(11)").text().trim();
+//       result.iSO = $(this).find("td:nth-child(12)").text().trim();
+//       result.sPd = $(this).find("td:nth-child(13)").text().trim();
+//       result.bABIP = $(this).find("td:nth-child(14)").text().trim();
+//       result.uBR = $(this).find("td:nth-child(15)").text().trim();
+//       result.wGDP = $(this).find("td:nth-child(16)").text().trim();
+//       result.wSB = $(this).find("td:nth-child(17)").text().trim();
+//       result.wRC = $(this).find("td:nth-child(18)").text().trim();
+//       result.wRAA = $(this).find("td:nth-child(19)").text().trim();
+//       result.wOBA = $(this).find("td:nth-child(20)").text().trim();
+//       result.wRCPlus = $(this).find("td:nth-child(21)").text().trim();
+//       // result.wAR = $(this).find("td:nth-child(22)").text().trim();
+
+// // // Use Article Model to create a new Entry
+//       var entry = new Stats_MLB_Batting(result);
+// // // Save Article Object to Entry
+//       entry.save(function(err, doc) {
+//         if (err) {
+//           console.log(err);
+//         }
+//         else {
+//           console.log(doc);
+//         }
+//       });
+//     });
+//   });
+//   request('http://www.fangraphs.com/leaders.aspx?pos=all&stats=pit&lg=all&qual=y&type=1&season=2016&month=0&season1=2016&ind=0&team=0&rost=0&age=0&filter=&players=0&page=1_100',
+//     function(error, response, html) {
+//      //console.log(html)
+// // Take body of HTML and load into Cheerio and save it to $ as a Selector
+//     var $ = cheerio.load(html);
+
+//   //  console.log($(".row").text());
+// // // Grab every h2 within the article Tag and perform the function
+//     $('#LeaderBoard1_dg1 .rgMasterTable tr.rgRow,.rgAltRow').each(function(i, element) {
+// // // Save an Empty Result Object
+//       // playerRow = $(this).text().trim();
+//       //console.log($(this).text().trim());
+//       var result = {};
+//         console.log(result);
+// // Add & Save Text & HREF of every link to Result Object
+//       result.rank = $(this).find("td:first-child").text().trim();
+//       result.name = $(this).find("td:nth-child(2)").text().trim();
+//       result.team = $(this).find("td:nth-child(3)").text().trim();
+//       result.kPer9 = $(this).find("td:nth-child(4)").text().trim();
+//       result.bbPer9 = $(this).find("td:nth-child(5)").text().trim();
+//       result.kToBB = $(this).find("td:nth-child(6)").text().trim();
+//       result.hrPer9 = $(this).find("td:nth-child(7)").text().trim().trim();
+//       result.kPct = $(this).find("td:nth-child(8)").text().trim();
+//       result.bbPct = $(this).find("td:nth-child(9)").text().trim();
+//       result.kBBPct = $(this).find("td:nth-child(10)").text().trim();
+//       result.aVGAg = $(this).find("td:nth-child(11)").text().trim();
+//       result.wHIP = $(this).find("td:nth-child(12)").text().trim();
+//       result.bABIP = $(this).find("td:nth-child(13)").text().trim();
+//       result.lOBPct = $(this).find("td:nth-child(14)").text().trim();
+//       result.eRAMinus = $(this).find("td:nth-child(15)").text().trim();
+//       result.fIPMinus = $(this).find("td:nth-child(16)").text().trim();
+//       result.xFIPMinus = $(this).find("td:nth-child(17)").text().trim();
+//       result.eRA = $(this).find("td:nth-child(18)").text().trim();
+//       result.fIP = $(this).find("td:nth-child(19)").text().trim();
+//       result.eToFIP = $(this).find("td:nth-child(20)").text().trim();
+//       result.xFIP = $(this).find("td:nth-child(21)").text().trim();
+//       result.sIERA = $(this).find("td:nth-child(22)").text().trim();
+//       // result.wAR = $(this).find("td:nth-child(22)").text().trim();
+
+// // // Use Article Model to create a new Entry
+//       var entry = new Stats_MLB_Pitching(result);
+// // // Save Article Object to Entry
+//       entry.save(function(err, doc) {
+//         if (err) {
+//           console.log(err);
+//         }
+//         else {
+//           console.log(doc);
+//         }
+//       });
+//     });
+//   });
+  request('http://www.footballoutsiders.com/stats/teameff',
     function(error, response, html) {
      //console.log(html)
 // Take body of HTML and load into Cheerio and save it to $ as a Selector
@@ -119,41 +223,39 @@ app.get('/scrape', function(req, res) {
 
   //  console.log($(".row").text());
 // // Grab every h2 within the article Tag and perform the function
-    $('#LeaderBoard1_dg1 .rgMasterTable tr.rgRow,.rgAltRow').each(function(i, element) {
+    $('#center .stats tr.rgRow,.rgAltRow').each(function(i, element) {
 // // Save an Empty Result Object
       // playerRow = $(this).text().trim();
       //console.log($(this).text().trim());
       var result = {};
         console.log(result);
 // Add & Save Text & HREF of every link to Result Object
-      result.rank = $(this).find("td:first-child").text();
-      result.name = $(this).find("td:nth-child(2)").text();
-      //result.team = $(this).find("[href*='rost']").text().trim();
-      // result.games = $(this).find("[class='grid_line_regular']").text();
-      // result.minsPlayed = $(this).find("[data-stat='mp']").text();
-      // result.perRtg = $(this).find("[data-stat='per']").text();
-      // result.trShtPct = $(this).find("[data-stat='ts_pct']").text();
-      // result.threePtAttRt = $(this).find("[data-stat='fg3a_per_fga_pct']").text();
-      // result.ftAttRt = $(this).find("[data-stat='fta_per_fga_pct']").text();
-      // result.offRebPct = $(this).find("[data-stat='orb_pct']").text();
-      // result.defRebPct = $(this).find("[data-stat='drb_pct']").text();
-      // result.totalRebPct = $(this).find("[data-stat='trb_pct']").text();
-      // result.asstPct = $(this).find("[data-stat='ast_pct']").text();
-      // result.stelPct = $(this).find("[data-stat='stl_pct']").text();
-      // result.blokPct = $(this).find("[data-stat='blk_pct']").text();
-      // result.trnOverPct = $(this).find("[data-stat='tov_pct']").text();
-      // result.usagePct = $(this).find("[data-stat='usg_pct']").text();
-      // result.offWinShare = $(this).find("[data-stat='ows']").text();
-      // result.defWinShare = $(this).find("[data-stat='dws']").text();
-      // result.totWinShare = $(this).find("[data-stat='ws']").text();
-      // result.p48WinShare = $(this).find("[data-stat='ws_per_48']").text();
-      // result.offPlusMinus = $(this).find("[data-stat='obpm']").text();
-      // result.defPlusMinus = $(this).find("[data-stat='dbpm']").text();
-      // result.boxPlusMinus = $(this).find("[data-stat='bpm']").text();
-      // result.vORP = $(this).find("[data-stat='vorp']").text();
+      result.rank = $(this).find("td:first-child").text().trim();
+      result.name = $(this).find("td:nth-child(2)").text().trim();
+      result.team = $(this).find("td:nth-child(3)").text().trim();
+      result.kPer9 = $(this).find("td:nth-child(4)").text().trim();
+      result.bbPer9 = $(this).find("td:nth-child(5)").text().trim();
+      result.kToBB = $(this).find("td:nth-child(6)").text().trim();
+      result.hrPer9 = $(this).find("td:nth-child(7)").text().trim().trim();
+      result.kPct = $(this).find("td:nth-child(8)").text().trim();
+      result.bbPct = $(this).find("td:nth-child(9)").text().trim();
+      result.kBBPct = $(this).find("td:nth-child(10)").text().trim();
+      result.aVGAg = $(this).find("td:nth-child(11)").text().trim();
+      result.wHIP = $(this).find("td:nth-child(12)").text().trim();
+      result.bABIP = $(this).find("td:nth-child(13)").text().trim();
+      result.lOBPct = $(this).find("td:nth-child(14)").text().trim();
+      result.eRAMinus = $(this).find("td:nth-child(15)").text().trim();
+      result.fIPMinus = $(this).find("td:nth-child(16)").text().trim();
+      result.xFIPMinus = $(this).find("td:nth-child(17)").text().trim();
+      result.eRA = $(this).find("td:nth-child(18)").text().trim();
+      result.fIP = $(this).find("td:nth-child(19)").text().trim();
+      result.eToFIP = $(this).find("td:nth-child(20)").text().trim();
+      result.xFIP = $(this).find("td:nth-child(21)").text().trim();
+      result.sIERA = $(this).find("td:nth-child(22)").text().trim();
+      // result.wAR = $(this).find("td:nth-child(22)").text().trim();
 
 // // Use Article Model to create a new Entry
-      var entry = new Stats_MLB_Player(result);
+      var entry = new Stats_MLB_Pitching(result);
 // // Save Article Object to Entry
       entry.save(function(err, doc) {
         if (err) {
@@ -181,8 +283,8 @@ app.get('/StatsNBAPlayer', function(req, res) {
   });
 });
 // GET articles scraped from mongoDB
-app.get('/StatsMLBPlayer', function(req, res) {
-  Stats_MLB_Player.find({}, function(err, doc) {
+app.get('/StatsMLBBatting', function(req, res) {
+  Stats_MLB_Batting.find({}, function(err, doc) {
     if (err) {
       console.log(err);
     }
@@ -191,7 +293,17 @@ app.get('/StatsMLBPlayer', function(req, res) {
     }
   });
 });
-
+// GET articles scraped from mongoDB
+app.get('/StatsMLBPitching', function(req, res) {
+  Stats_MLB_Pitching.find({}, function(err, doc) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      res.json(doc);
+    }
+  });
+});
 // GET article by its ObjectID
 // app.get('/articles/:id', function(req, res) {
 // // Use the ID from the parameter and prepare a query that finds the matching one in the db
