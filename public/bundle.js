@@ -21568,27 +21568,31 @@
 	      myStats = this.state.statResults.map(function (data, index) {
 	        return React.createElement(
 	          'div',
-	          { key: index, className: 'title dark pitcher-container' },
+	          { key: index, id: 'games-container' },
 	          React.createElement(
-	            'span',
-	            null,
-	            ' ',
-	            data.player,
-	            ' '
-	          ),
-	          React.createElement(
-	            'span',
-	            null,
-	            ' ',
-	            data.position,
-	            ' '
-	          ),
-	          React.createElement(
-	            'span',
-	            null,
-	            ' ',
-	            data.perRtg,
-	            ' '
+	            'div',
+	            { id: 'played ', className: 'short games' },
+	            React.createElement(
+	              'span',
+	              null,
+	              ' ',
+	              data.player,
+	              ' '
+	            ),
+	            React.createElement(
+	              'span',
+	              null,
+	              ' ',
+	              data.position,
+	              ' '
+	            ),
+	            React.createElement(
+	              'span',
+	              null,
+	              ' ',
+	              data.perRtg,
+	              ' '
+	            )
 	          )
 	        );
 	      });

@@ -8,8 +8,9 @@ var cheerio = require('cheerio');
 //Require Users Schema
 var Users = require('./models/users.js');
 var Stats_NBA_Player = require('./models/stats_NBA-Player.js');
-var Stats_MLB_Batting = require('./models/stats_MLB-Batting.js')
-var Stats_MLB_Pitching = require('./models/stats_MLB-Pitching.js')
+var Stats_MLB_Batting = require('./models/stats_MLB-Batting.js');
+var Stats_MLB_Pitching = require('./models/stats_MLB-Pitching.js');
+var Stats_NFL_Team = require('./models/stats_NFL-Team.js');
 
 // Create Instance of Express
 var app = express();
@@ -223,39 +224,29 @@ app.get('/scrape', function(req, res) {
 
   //  console.log($(".row").text());
 // // Grab every h2 within the article Tag and perform the function
-    $('#center .stats tr.rgRow,.rgAltRow').each(function(i, element) {
+    $('#center .stats tr').each(function(i, element) {
 // // Save an Empty Result Object
       // playerRow = $(this).text().trim();
-      //console.log($(this).text().trim());
+      console.log($(this).text().trim());
       var result = {};
         console.log(result);
 // Add & Save Text & HREF of every link to Result Object
       result.rank = $(this).find("td:first-child").text().trim();
-      result.name = $(this).find("td:nth-child(2)").text().trim();
-      result.team = $(this).find("td:nth-child(3)").text().trim();
-      result.kPer9 = $(this).find("td:nth-child(4)").text().trim();
-      result.bbPer9 = $(this).find("td:nth-child(5)").text().trim();
-      result.kToBB = $(this).find("td:nth-child(6)").text().trim();
-      result.hrPer9 = $(this).find("td:nth-child(7)").text().trim().trim();
-      result.kPct = $(this).find("td:nth-child(8)").text().trim();
-      result.bbPct = $(this).find("td:nth-child(9)").text().trim();
-      result.kBBPct = $(this).find("td:nth-child(10)").text().trim();
-      result.aVGAg = $(this).find("td:nth-child(11)").text().trim();
-      result.wHIP = $(this).find("td:nth-child(12)").text().trim();
-      result.bABIP = $(this).find("td:nth-child(13)").text().trim();
-      result.lOBPct = $(this).find("td:nth-child(14)").text().trim();
-      result.eRAMinus = $(this).find("td:nth-child(15)").text().trim();
-      result.fIPMinus = $(this).find("td:nth-child(16)").text().trim();
-      result.xFIPMinus = $(this).find("td:nth-child(17)").text().trim();
-      result.eRA = $(this).find("td:nth-child(18)").text().trim();
-      result.fIP = $(this).find("td:nth-child(19)").text().trim();
-      result.eToFIP = $(this).find("td:nth-child(20)").text().trim();
-      result.xFIP = $(this).find("td:nth-child(21)").text().trim();
-      result.sIERA = $(this).find("td:nth-child(22)").text().trim();
-      // result.wAR = $(this).find("td:nth-child(22)").text().trim();
+      result.teamName = $(this).find("td:nth-child(2)").text().trim();
+      result.totDVOA = $(this).find("td:nth-child(3)").text().trim();
+      result.lastWkRkg = $(this).find("td:nth-child(4)").text().trim();
+      result.totDAVE = $(this).find("td:nth-child(5)").text().trim();
+      result.dAVERank = $(this).find("td:nth-child(6)").text().trim();
+      result.record = $(this).find("td:nth-child(7)").text().trim().trim();
+      result.offDVOA = $(this).find("td:nth-child(8)").text().trim();
+      result.offRank = $(this).find("td:nth-child(9)").text().trim();
+      result.defDVOA = $(this).find("td:nth-child(10)").text().trim();
+      result.defRank = $(this).find("td:nth-child(11)").text().trim();
+      result.specTeamDVOA = $(this).find("td:nth-child(12)").text().trim();
+      result.specTeamRank = $(this).find("td:nth-child(13)").text().trim();
 
 // // Use Article Model to create a new Entry
-      var entry = new Stats_MLB_Pitching(result);
+      var entry = new Stats_NFL_Team(result);
 // // Save Article Object to Entry
       entry.save(function(err, doc) {
         if (err) {
@@ -296,6 +287,17 @@ app.get('/StatsMLBBatting', function(req, res) {
 // GET articles scraped from mongoDB
 app.get('/StatsMLBPitching', function(req, res) {
   Stats_MLB_Pitching.find({}, function(err, doc) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      res.json(doc);
+    }
+  });
+});
+// GET articles scraped from mongoDB
+app.get('/StatsNFLTeams', function(req, res) {
+  Stats_NFL_Team.find({}, function(err, doc) {
     if (err) {
       console.log(err);
     }
