@@ -131,19 +131,25 @@ var Main = React.createClass({
     if (this.state.statResults) {
       console.log("function ran")
       myStats = this.state.statResults.map(function(data, index){
-        return <div key={index} id="games-container">
-          <div id="played " className="short games">
+        return <div key={index} id="played" className="short">
+          <div className="games">
             <span> { data.player } </span>
             <span> { data.position } </span>
             <span> { data.perRtg } </span>
           </div>
-
         </div>
       })
     }
     return(
 
-      <div className="container">{ myStats }</div>
+      <div id="games-container">
+{/*        <Modal show={this.state.showModal} onHide={this.close}>
+          <div onClick={this.close} className="g-signin2 " data-onsuccess="onSignIn"></div>
+        </Modal>*/}
+
+        { myStats }
+
+      </div>
     )
   }
 });

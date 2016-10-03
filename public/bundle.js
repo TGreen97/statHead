@@ -21568,10 +21568,10 @@
 	      myStats = this.state.statResults.map(function (data, index) {
 	        return React.createElement(
 	          'div',
-	          { key: index, id: 'games-container' },
+	          { key: index, id: 'played', className: 'short' },
 	          React.createElement(
 	            'div',
-	            { id: 'played ', className: 'short games' },
+	            { className: 'games' },
 	            React.createElement(
 	              'span',
 	              null,
@@ -21599,7 +21599,7 @@
 	    }
 	    return React.createElement(
 	      'div',
-	      { className: 'container' },
+	      { id: 'games-container' },
 	      myStats
 	    );
 	  }
