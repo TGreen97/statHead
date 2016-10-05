@@ -289,7 +289,7 @@ label span,legend span {
 	width:1024px;
 	margin:0 auto;
 	padding:0;
-	margin-top: 30px
+	margin-top: 75px
 }
 .container .column,.container .columns {
 	float:left;
@@ -3677,3 +3677,36 @@ a:visted {
 		margin:0!important
 	}
 }
+.header-global-wrapper{
+	background-color:#fff
+}
+.header-global{
+	padding:.625rem;
+	z-index:2;
+	background:#fff
+}
+.header-global .site-wrapper{
+	display:-ms-flexbox;
+	display:flex;
+	-ms-flex-flow:row flex-start;
+	flex-flow:row flex-start;
+	-ms-flex-align:center;
+	align-items:center;
+	-ms-flex-line-pack:center;
+	align-content:center;
+	position:static;
+	padding:0 0 .625rem
+}
+.header-global .header-global-top{
+	border-bottom:2px solid #3c3c3c;
+	height:37px
+}
+@media screen and (max-width:600px){
+	.header-global .header-global-bottom{
+		z-index:-1;
+		position:absolute;
+		width:1%;
+		visibility:hidden
+	}
+}
+

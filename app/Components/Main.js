@@ -11,6 +11,11 @@ var helpers = require('./Utils/helpers.js');
 
 // This is the main component.
 var Main = React.createClass({
+
+  showLock: function() {
+    this.lock.show();
+  },
+
   getInitialState: function(){
     return {
       // searchTerm: "",
@@ -142,13 +147,17 @@ var Main = React.createClass({
     }
     return(
 
-      <div id="games-container">
-{/*        <Modal show={this.state.showModal} onHide={this.close}>
-          <div onClick={this.close} className="g-signin2 " data-onsuccess="onSignIn"></div>
-        </Modal>*/}
+      <div id="team-container">
+{/*              <div className="g-signin2 login-box" data-onsuccess="onSignIn">
+                    <a href="#close" onClick={this.showLock}></a>
+              </div>*/}
+        <div id="games-container">
+    {/*        <Modal show={this.state.showModal} onHide={this.close}>
+              <div onClick={this.close} className="g-signin2 " data-onsuccess="onSignIn"></div>
+            </Modal>*/}
 
-        { myStats }
-
+            { myStats }
+        </div>
       </div>
     )
   }

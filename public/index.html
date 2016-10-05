@@ -1,11 +1,28 @@
  <!DOCTYPE html>
-<html lang="en">
+<html lang="en" itemscope itemtype="http://schema.org/Article">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <!-- BEGIN Pre-requisites -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+  </script>
+  <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
+  </script>
+  <script>
+    function start() {
+      gapi.load('auth2', function() {
+        auth2 = gapi.auth2.init({
+          client_id: '407649504473-ufrnki3f745sreqia7tsmbjmeriebaaj.apps.googleusercontent.com',
+          // Scopes to request in addition to 'profile' and 'email'
+          //scope: 'additional_scope'
+        });
+      });
+    }
+  </script>
   <!-- Google Sign-in Client ID -->
-  <meta name="google-signin-client_id" content="407649504473-ufrnki3f745sreqia7tsmbjmeriebaaj.apps.googleusercontent.com">
+<!--   <meta name="google-signin-client_id" content="407649504473-ufrnki3f745sreqia7tsmbjmeriebaaj.apps.googleusercontent.com"> -->
   <link rel="stylesheet" type="text/css" href="/css/app.css">
+
   <!-- Compiled and minified CSS -->
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css"> -->
 <!--   <link rel="stylesheet" type="text/css" href="https://cdn-static-1.medium.com/_/fp/css/fonts-base.by5Oi_VbnwEIvhnWIsuUjA.css">
@@ -14,23 +31,43 @@
 </head>
 
 <body>
+  <div class="header-global-wrapper">
+    <header id="header-global" class="header-global">
+      <div class="site-wrapper header-global-top">
+        <h2>statHead.</h2>
+      </div>
+    </header>
+  </div>
 
-  <header class="vertical-sports">
+<!--   <header class="vertical-sports">
     <div class="header-wrapper">
         <nav>
           STATS!    Lorem Ipsum. We gonna stat.
         </nav>
     </div>
-  </header>
+  </header> -->
 
   <div class="container">
     <div id="team-container">
-      <!-- This is where React will deploy the contents it generates -->
-      <div id="app"></div>
+      <div id="games-container">
+        <div id="played" class="short">
+          <button id="signinButton">Sign in with Google</button>
+          <script>
+            $('#signinButton').click(function() {
+              // signInCallback defined in step 6.
+              auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(signInCallback);
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <!-- This is where React will deploy the contents it generates -->
+    <div id="app"></div>
 <!--           <div className="col-md-6">
         <Results stats={this.state.stats} />
       </div> -->
-    </div>
+
 <!--     <div className="row">
       <div id="stats" className="col-md-6 col-sm-offset-3"></div>
     </div> -->
@@ -43,9 +80,33 @@
   <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
   Compiled and minified JavaScript
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script> -->
+  <script>
+    function signInCallback(authResult) {
+      if (authResult['code']) {
+        // Hide the sign-in button now that the user is authorized, for example:
+        $('#signinButton').attr('style', 'display: none');
+        // Send the code to the server
+        $.ajax({
+          type: 'POST',
+          url: 'http://example.com/storeauthcode',
+          contentType: 'application/octet-stream; charset=utf-8',
+          success: function(result) {
+            // Handle or verify the server response.
+          },
+          processData: false,
+          data: authResult['code']
+        });
+      } else {
+        // There was an error.
+      }
+    }
+  </script>
 
+  <!-- END Pre-requisites -->
   <!-- Google Platform Library -->
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
+<!--   <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+  <!-- Auth0Lock Script -->
+<!--   <script src="http://cdn.auth0.com/js/lock/10.2/lock.min.js"></script> -->
   <!-- All of our JS code will be transpiled into this bundle.js file -->
   <script src="bundle.js"></script>
   <!-- <script src="app.js"></script> -->

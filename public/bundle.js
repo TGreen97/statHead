@@ -21448,6 +21448,11 @@
 	var Main = React.createClass({
 	  displayName: 'Main',
 
+
+	  showLock: function showLock() {
+	    this.lock.show();
+	  },
+
 	  getInitialState: function getInitialState() {
 	    return {
 	      // searchTerm: "",
@@ -21599,8 +21604,12 @@
 	    }
 	    return React.createElement(
 	      'div',
-	      { id: 'games-container' },
-	      myStats
+	      { id: 'team-container' },
+	      React.createElement(
+	        'div',
+	        { id: 'games-container' },
+	        myStats
+	      )
 	    );
 	  }
 	});
