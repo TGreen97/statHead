@@ -8,8 +8,24 @@ var usersSchema = new Schema({
   name: {
     type: String,
   },
+  email: {
+    type: String,
+  },
+  nflTeam: {
+    type: String,
+  },
+  mlbTeam: {
+    type: String,
+  },
+  nbaTeam: {
+    type: String,
+  },
+  id_token: {
+    type: String,
+  },
   date: {
-    type: Date
+    type: Date,
+    default: Date.now
   }
 });
 

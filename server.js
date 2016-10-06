@@ -237,7 +237,7 @@ app.get('/scrape', function(req, res) {
       result.lastWkRkg = $(this).find("td:nth-child(4)").text().trim();
       result.totDAVE = $(this).find("td:nth-child(5)").text().trim();
       result.dAVERank = $(this).find("td:nth-child(6)").text().trim();
-      result.record = $(this).find("td:nth-child(7)").text().trim().trim();
+      result.record = $(this).find("td:nth-child(7)").text().trim();
       result.offDVOA = $(this).find("td:nth-child(8)").text().trim();
       result.offRank = $(this).find("td:nth-child(9)").text().trim();
       result.defDVOA = $(this).find("td:nth-child(10)").text().trim();
@@ -245,10 +245,10 @@ app.get('/scrape', function(req, res) {
       result.specTeamDVOA = $(this).find("td:nth-child(12)").text().trim();
       result.specTeamRank = $(this).find("td:nth-child(13)").text().trim();
 
-// // Use Article Model to create a new Entry
+// // Use NFL-Team Model to create a new Entry
       var entry = new Stats_NFL_Team(result);
-// // Save Article Object to Entry
-      entry.save(function(err, doc) {
+// // Save Result Object to Entry
+      entry.replaceOne(function(err, doc) {
         if (err) {
           console.log(err);
         }
@@ -306,6 +306,23 @@ app.get('/StatsNFLTeams', function(req, res) {
     }
   });
 });
+// Add New Users
+app.post('/submit', function(req,res) {
+  var user = new Users(req.body);
+
+  user.save(function(err,doc) {
+    if (err) {
+      res.send(err);
+    }
+    else {
+      res.redirect('/users/:id');
+    }
+  });
+});
+// User Homepage
+// app.get('/users/:id', function(res,res) {
+
+// })
 // GET article by its ObjectID
 // app.get('/articles/:id', function(req, res) {
 // // Use the ID from the parameter and prepare a query that finds the matching one in the db
