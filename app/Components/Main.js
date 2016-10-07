@@ -156,7 +156,7 @@ var Main = React.createClass({
               <div onClick={this.close} className="g-signin2 " data-onsuccess="onSignIn"></div>
             </Modal>*/}
 
-            { myStats }
+            {/* myStats */}
         </div>
       </div>
     )

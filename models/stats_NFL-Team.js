@@ -12,13 +12,13 @@ var stats_NFL_TeamSchema = new Schema({
     type: String,
   },
   lastWkRkg: {
-    type: String,
+    type: Number,
   },
   totDAVE: {
     type: String,
   },
   dAVERank: {
-    type: String,
+    type: Number,
   },
   record: {
     type: String,
@@ -27,19 +27,19 @@ var stats_NFL_TeamSchema = new Schema({
     type: String,
   },
   offRank: {
-    type: String,
+    type: Number,
   },
   defDVOA: {
     type: String,
   },
   defRank: {
-    type: String,
+    type: Number,
   },
   specTeamDVOA: {
     type: String,
   },
   specTeamRank: {
-    type: String,
+    type: Number,
   }
 });
 

@@ -224,19 +224,19 @@ app.get('/scrape', function(req, res) {
 
   //  console.log($(".row").text());
 // // Grab every h2 within the article Tag and perform the function
-    $('#center .stats tr').each(function(i, element) {
+    $('.content-body table:first-child tr').each(function(i, element) {
 // // Save an Empty Result Object
       // playerRow = $(this).text().trim();
-      console.log($(this).text().trim());
+      //console.log($(this).text().trim());
       var result = {};
         console.log(result);
 // Add & Save Text & HREF of every link to Result Object
       result.rank = $(this).find("td:first-child").text().trim();
       result.teamName = $(this).find("td:nth-child(2)").text().trim();
       result.totDVOA = $(this).find("td:nth-child(3)").text().trim();
-      result.lastWkRkg = $(this).find("td:nth-child(4)").text().trim();
-      result.totDAVE = $(this).find("td:nth-child(5)").text().trim();
-      result.dAVERank = $(this).find("td:nth-child(6)").text().trim();
+      result.lastWkRkg = $(this).find("td:nth-child(4)").text();
+      result.totDAVE = $(this).find("td:nth-child(5)").text();
+      result.dAVERank = $(this).find("td:nth-child(6)").text();
       result.record = $(this).find("td:nth-child(7)").text().trim();
       result.offDVOA = $(this).find("td:nth-child(8)").text().trim();
       result.offRank = $(this).find("td:nth-child(9)").text().trim();
@@ -246,18 +246,34 @@ app.get('/scrape', function(req, res) {
       result.specTeamRank = $(this).find("td:nth-child(13)").text().trim();
 
 // // Use NFL-Team Model to create a new Entry
-      var entry = new Stats_NFL_Team(result);
+      Stats_NFL_Team.update({result}, {safe:true, overwrite:true, multi:true},
+        function(err, doc) {
+          if(err) return console.log(err);
+          res.send(doc);
+        });
+
+      // Stats_NFL_Team.save(function(err, doc) {
+      //   if (err) {
+      //     console.log(err);
+      //   }
+      //   else {
+      //     console.log(doc);
+      //   }
+
 // // Save Result Object to Entry
-      entry.replaceOne(function(err, doc) {
-        if (err) {
-          console.log(err);
-        }
-        else {
-          console.log(doc);
-        }
-      });
+      // entry, function(err, doc) {
+      //   if (err) {
+      //     console.log(err);
+      //   }
+      //   else {
+
+        //   console.log("Else Console");
+        // }
+      // });
     });
   });
+
+
 // Notification that the Scrape is finished
   res.send('Send complete');
 });

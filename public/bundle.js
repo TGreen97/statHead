@@ -21605,11 +21605,7 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'team-container' },
-	      React.createElement(
-	        'div',
-	        { id: 'games-container' },
-	        myStats
-	      )
+	      React.createElement('div', { id: 'games-container' })
 	    );
 	  }
 	});
