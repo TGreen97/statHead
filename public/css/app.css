@@ -190,28 +190,30 @@ img.scale-with-grid {
 	height:auto
 }
 .button,button,input[type=button],input[type=reset],input[type=submit] {
-	background:#eee;
+/*	background:#eee;
 	background:#eee -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,.2)),color-stop(100%,rgba(0,0,0,.2)));
 	background:#eee -webkit-linear-gradient(top,rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%);
-	background:#eee linear-gradient(to bottom,rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%);
-	border:1px solid #aaa;
-	border-top:1px solid #ccc;
+	background:#eee linear-gradient(to bottom,rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%);*/
+	border: #3c3c3c;
+	/*border-top:1px solid #ccc;
 	border-left:1px solid #ccc;
 	border-radius:3px;
-	color:#444;
+	color:#444;*/
 	display:inline-block;
-	font-size:11px;
+	font-size:13px;
 	font-weight:700;
 	text-decoration:none;
-	text-shadow:0 1px rgba(255,255,255,.75);
+	/*text-shadow:0 1px rgba(255,255,255,.75);*/
 	cursor:pointer;
-	margin-bottom:20px;
+	margin-bottom:10px;
 	line-height:normal;
 	padding:8px 10px;
-	font-family:"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif
+	font-family: "AtlasGrotesk",sans-serif;
+	background-color: #3c3c3c;
+	color: #fff;
 }
 .button:hover,button:hover,input[type=button]:hover,input[type=reset]:hover,input[type=submit]:hover {
-	color:#222;
+	/*color:#222;*/
 	background:#ddd;
 	background:#ddd -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,.3)),color-stop(100%,rgba(0,0,0,.3)));
 	background:#ddd -webkit-linear-gradient(top,rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%);
@@ -221,11 +223,11 @@ img.scale-with-grid {
 	border-left:1px solid #aaa
 }
 .button:active,button:active,input[type=button]:active,input[type=reset]:active,input[type=submit]:active {
-	border:1px solid #666;
+	/*border:1px solid #666;
 	background:#ccc;
 	background:#ccc -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(255,255,255,.35)),color-stop(100%,rgba(10,10,10,.4)));
 	background:#ccc -webkit-linear-gradient(top,rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%);
-	background:#ccc linear-gradient(to bottom,rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%)
+	background:#ccc linear-gradient(to bottom,rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%)*/
 }
 .button.full-width,button.full-width,input[type=button].full-width,input[type=reset].full-width,input[type=submit].full-width {
 	width:100%;
@@ -238,11 +240,12 @@ button::-moz-focus-inner,input::-moz-focus-inner {
 	padding:0
 }
 input[type=email],input[type=password],input[type=text],select,textarea {
-	border:1px solid #ccc;
+	border:1px solid #3c3c3c;
 	padding:6px 4px;
 	outline:none;
 	border-radius:2px;
-	font:13px "HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font:20px;
+	font-family: "AtlasGrotesk",sans-serif;
 	color:#777;
 	width:210px;
 	max-width:100%;
@@ -251,13 +254,13 @@ input[type=email],input[type=password],input[type=text],select,textarea {
 	background:#fff
 }
 select {
-	padding:0;
+	padding:0px;
 	width:220px
 }
 input[type=email]:focus,input[type=password]:focus,input[type=text]:focus,textarea:focus {
 	border:1px solid #aaa;
 	color:#444;
-	box-shadow:0 0 3px rgba(0,0,0,.2)
+	/*box-shadow:0 0 3px rgba(0,0,0,.2)*/
 }
 textarea {
 	min-height:60px
@@ -2214,11 +2217,11 @@ svg rect.footer-bg {
 	font-family:AtlasGrotesk
 }
 #team-container #games-container #played.short {
-	height:280px;
+	height:400px;
 	overflow:hidden
 }
 #team-container #games-container #played .games {
-	width:280px;
+	width:400px;
 	margin:10px;
 	padding:15px;
 	border:1px solid #cdcdcd;
@@ -3719,4 +3722,16 @@ a:visted {
 		visibility:hidden
 	}
 }
-
+/*form input select {
+	display: inline-flex;
+	font: inherit;
+	height: 22px;
+	vertical-align: baseline;
+	box-sizing: border-box;
+	padding: 0 2px 0 0;
+	position: relative;
+	border: 1px solid #3c3c3c;
+	padding-left: .25em;
+	margin:0 0 10px;
+	width: 238px;
+}*/

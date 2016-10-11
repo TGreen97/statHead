@@ -65,6 +65,116 @@
     <div id="team-container">
       <div id="games-container">
         <div id="played" class="short">
+          <div class="games">
+            <form action="/submit" method="post" class="form-control">
+              <input type="text" name="userID" placeholder="Request a UserID">
+              <input type="text" name="name" placeholder="Your Name">
+              <input type="text" name ="email" placeholder="Your Email">
+              <label for="nflTeam">Your NFL Team?</label>
+              <select name="nflTeam" label="Your NFL Team?">
+                <option>ARI</option>
+                <option>ATL</option>
+                <option>BAL</option>
+                <option>BUF</option>
+                <option>CAR</option>
+                <option>CHI</option>
+                <option>CIN</option>
+                <option>CLE</option>
+                <option>DAL</option>
+                <option>DEN</option>
+                <option>DET</option>
+                <option>GB</option>
+                <option>HOU</option>
+                <option>IND</option>
+                <option>JAC</option>
+                <option>KC</option>
+                <option>LARM</option>
+                <option>MIA</option>
+                <option>MIN</option>
+                <option>NE</option>
+                <option>NO</option>
+                <option>NYG</option>
+                <option>NYJ</option>
+                <option>OAK</option>
+                <option>PHI</option>
+                <option>PIT</option>
+                <option>SD</option>
+                <option>SEA</option>
+                <option>SF</option>
+                <option>TB</option>
+                <option>TEN</option>
+                <option>WAS</option>
+              </select>
+              <label for="mlbTeam">Your MLB Team?</label>
+              <select name="mlbTeam" label="Your MLB Team?">
+                <option>Angels</option>
+                <option>Astros</option>
+                <option>Athletics</option>
+                <option>Blue Jays</option>
+                <option>Braves</option>
+                <option>Brewers</option>
+                <option>Cardinals</option>
+                <option>Cubs</option>
+                <option>Diamondbacks</option>
+                <option>Dodgers</option>
+                <option>Giants</option>
+                <option>Indians</option>
+                <option>Mariners</option>
+                <option>Marlins</option>
+                <option>Mets</option>
+                <option>Nationals</option>
+                <option>Orioles</option>
+                <option>Padres</option>
+                <option>Phillies</option>
+                <option>Pirates</option>
+                <option>Rangers</option>
+                <option>Rays</option>
+                <option>Red Sox</option>
+                <option>Reds</option>
+                <option>Rockies</option>
+                <option>Royals</option>
+                <option>Tigers</option>
+                <option>Twins</option>
+                <option>White Sox</option>
+                <option>Yankees</option>
+              </select>
+              <label for="nbaTeam">Your NBA Team?</label>
+              <select name="nbaTeam" label="Your NBA Team?">
+                <option>ATL</option>
+                <option>BOS</option>
+                <option>BRK</option>
+                <option>CHI</option>
+                <option>CHO</option>
+                <option>CLE</option>
+                <option>DAL</option>
+                <option>DEN</option>
+                <option>DET</option>
+                <option>GSW</option>
+                <option>HOU</option>
+                <option>IND</option>
+                <option>LAC</option>
+                <option>LAL</option>
+                <option>MEM</option>
+                <option>MIA</option>
+                <option>MIL</option>
+                <option>MIN</option>
+                <option>NOP</option>
+                <option>NYK</option>
+                <option>OKC</option>
+                <option>ORL</option>
+                <option>PHI</option>
+                <option>PHO</option>
+                <option>POR</option>
+                <option>SAC</option>
+                <option>SAS</option>
+                <option>TOR</option>
+                <option>UTA</option>
+                <option>WAS</option>
+              </select>
+              <input id="button2" type="submit">
+            </form>
+          </div>
+
           <!-- <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
           <script>
             function onSignIn(googleUser) {
@@ -99,110 +209,6 @@
           </script> -->
         </div>
       </div>
-      <form action="/submit" method="post" style="input{display: block; font-size: 24px; height: 36px}">
-          <input type="text" name="userID" placeholder="userID">
-          <input type="name" name="name" placeholder="name">
-          <input type="text" name ="email" placeholder="email">
-          <select name="nflTeam" placeholder="Your NFL Team">
-            <option>ARI</option>
-            <option>ATL</option>
-            <option>BAL</option>
-            <option>BUF</option>
-            <option>CAR</option>
-            <option>CHI</option>
-            <option>CIN</option>
-            <option>CLE</option>
-            <option>DAL</option>
-            <option>DEN</option>
-            <option>DET</option>
-            <option>GB</option>
-            <option>HOU</option>
-            <option>IND</option>
-            <option>JAC</option>
-            <option>KC</option>
-            <option>LARM</option>
-            <option>MIA</option>
-            <option>MIN</option>
-            <option>NE</option>
-            <option>NO</option>
-            <option>NYG</option>
-            <option>NYJ</option>
-            <option>OAK</option>
-            <option>PHI</option>
-            <option>PIT</option>
-            <option>SD</option>
-            <option>SEA</option>
-            <option>SF</option>
-            <option>TB</option>
-            <option>TEN</option>
-            <option>WAS</option>
-          </select>
-          <select name="mlbTeam" placeholder="Your MLB Team">
-            <option>Angels</option>
-            <option>Astros</option>
-            <option>Athletics</option>
-            <option>Blue Jays</option>
-            <option>Braves</option>
-            <option>Brewers</option>
-            <option>Cardinals</option>
-            <option>Cubs</option>
-            <option>Diamondbacks</option>
-            <option>Dodgers</option>
-            <option>Giants</option>
-            <option>Indians</option>
-            <option>Mariners</option>
-            <option>Marlins</option>
-            <option>Mets</option>
-            <option>Nationals</option>
-            <option>Orioles</option>
-            <option>Padres</option>
-            <option>Phillies</option>
-            <option>Pirates</option>
-            <option>Rangers</option>
-            <option>Rays</option>
-            <option>Red Sox</option>
-            <option>Reds</option>
-            <option>Rockies</option>
-            <option>Royals</option>
-            <option>Tigers</option>
-            <option>Twins</option>
-            <option>White Sox</option>
-            <option>Yankees</option>
-          </select>
-          <select name="nbaTeam" placeholder="Your NBA Team">
-            <option>ATL</option>
-            <option>BOS</option>
-            <option>BRK</option>
-            <option>CHI</option>
-            <option>CHO</option>
-            <option>CLE</option>
-            <option>DAL</option>
-            <option>DEN</option>
-            <option>DET</option>
-            <option>GSW</option>
-            <option>HOU</option>
-            <option>IND</option>
-            <option>LAC</option>
-            <option>LAL</option>
-            <option>MEM</option>
-            <option>MIA</option>
-            <option>MIL</option>
-            <option>MIN</option>
-            <option>NOP</option>
-            <option>NYK</option>
-            <option>OKC</option>
-            <option>ORL</option>
-            <option>PHI</option>
-            <option>PHO</option>
-            <option>POR</option>
-            <option>SAC</option>
-            <option>SAS</option>
-            <option>TOR</option>
-            <option>UTA</option>
-            <option>WAS</option>
-          </select>
-          <input type="submit">
-      </form>
     </div>
 
     <!-- This is where React will deploy the contents it generates -->

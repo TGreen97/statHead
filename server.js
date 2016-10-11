@@ -1,30 +1,48 @@
 // Include Server Dependencies
-var express = require('express');
-var bodyParser = require('body-parser');
-var logger = require('morgan');
-var mongoose = require('mongoose');
-var request = require('request');
-var cheerio = require('cheerio');
+var express       = require('express');
+var bodyParser    = require('body-parser');
+var cookieParser  = require('cookie-parser');
+var logger        = require('morgan');
+var mongoose      = require('mongoose');
+var request       = require('request');
+var cheerio       = require('cheerio');
+var passport      = require('passport');
+var path          = require('path');
+var session       = require('express-session');
+
 //Require Users Schema
-var Users = require('./models/users.js');
-var Stats_NBA_Player = require('./models/stats_NBA-Player.js');
-var Stats_MLB_Batting = require('./models/stats_MLB-Batting.js');
+var Users              = require('./models/users.js');
+var Stats_NBA_Player   = require('./models/stats_NBA-Player.js');
+var Stats_MLB_Batting  = require('./models/stats_MLB-Batting.js');
 var Stats_MLB_Pitching = require('./models/stats_MLB-Pitching.js');
-var Stats_NFL_Team = require('./models/stats_NFL-Team.js');
+var Stats_NFL_Team     = require('./models/stats_NFL-Team.js');
 
 // Create Instance of Express
 var app = express();
 var PORT = process.env.PORT || 3000; // Sets an initial port. We'll use this later in our listener
 
-// Run Morgan for Logging
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.text());
-app.use(bodyParser.json({type:'application/vnd.api+json'}));
+require('./config/passport')(passport);
 
-app.use(express.static('./public'));
+app.configure(function() {
+  // Run Morgan for Logging
+  app.use(logger('dev'));
+  app.use(cookieParser());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({extended: true}));
+  app.use(bodyParser.text());
+  app.use(bodyParser.json({type:'application/vnd.api+json'}));
 
+  app.use(express.static('./public'));
+  app.use(session({
+      secret: "stattystatstatcat"+ new Date(),
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: true }
+  }));
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+});
 // -------------------------------------------------
 
 // MongoDB Configuration configuration (Change this URL to your own DB)
@@ -39,20 +57,39 @@ db.once('open', function () {
   console.log('Mongoose connection successful.');
 });
 
-
 // -------------------------------------------------
 
 // Main Route. This route will redirect to our rendered React application
-app.get('/', function(req, res){
-  res.sendFile('./public/index.html');
+app.get('/home', function(req, res){
+  res.sendFile('public/index.html', { root: __dirname});
 })
 
 // =========== ROUTES ============
+// Get basic info from Google Profile
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// Index Route
-// app.get('/', function(req, res) {
-//   res.send(index.html);
-// });
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        successRedirect : '/users/:id',
+        failureRedirect : '/'
+    }));
+app.get('/users/:id', isLoggedIn, function(req, res) {
+  res.render('profile.ejs', {
+    Users : req.users.id
+  });
+});
+
+app.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated())
+    return next();
+
+  res.redirect('/');
+}
 
 // GET to Scrape website
 app.get('/scrape', function(req, res) {
@@ -221,7 +258,13 @@ app.get('/scrape', function(req, res) {
      //console.log(html)
 // Take body of HTML and load into Cheerio and save it to $ as a Selector
     var $ = cheerio.load(html);
-
+    // Ref to Model defined in dependency
+    var Stats_NFL = mongoose.model( 'Stats_NFL_Team' );
+    //console.log(Stats_NFL);
+    // Clear existing documents from Collection
+    Stats_NFL.find({}).remove(function(err, res) {
+      console.log(err, res);
+    });
   //  console.log($(".row").text());
 // // Grab every h2 within the article Tag and perform the function
     $('.content-body table:first-child tr').each(function(i, element) {
@@ -229,7 +272,7 @@ app.get('/scrape', function(req, res) {
       // playerRow = $(this).text().trim();
       //console.log($(this).text().trim());
       var result = {};
-        console.log(result);
+        //console.log(result);
 // Add & Save Text & HREF of every link to Result Object
       result.rank = $(this).find("td:first-child").text().trim();
       result.teamName = $(this).find("td:nth-child(2)").text().trim();
@@ -246,36 +289,21 @@ app.get('/scrape', function(req, res) {
       result.specTeamRank = $(this).find("td:nth-child(13)").text().trim();
 
 // // Use NFL-Team Model to create a new Entry
-      Stats_NFL_Team.update({result}, {safe:true, overwrite:true, multi:true},
-        function(err, doc) {
-          if(err) return console.log(err);
-          res.send(doc);
-        });
+      var entry = new Stats_NFL_Team(result);
+      console.log(result);
 
-      // Stats_NFL_Team.save(function(err, doc) {
-      //   if (err) {
-      //     console.log(err);
-      //   }
-      //   else {
-      //     console.log(doc);
-      //   }
-
-// // Save Result Object to Entry
-      // entry, function(err, doc) {
-      //   if (err) {
-      //     console.log(err);
-      //   }
-      //   else {
-
-        //   console.log("Else Console");
-        // }
-      // });
+      entry.save(function(err, doc) {
+        if (err) {
+          console.log(err);
+        }
+        else {
+          console.log(doc);
+        }
+      })
     });
   });
-
-
 // Notification that the Scrape is finished
-  res.send('Send complete');
+  console.log('NFL Send complete');
 });
 
 // GET articles scraped from mongoDB
@@ -336,9 +364,18 @@ app.post('/submit', function(req,res) {
   });
 });
 // User Homepage
-// app.get('/users/:id', function(res,res) {
+app.get('/users/:id', function(req,res) {
+  Users.findOne({'_id': req.params.id})
+    .exec(function (err, doc) {
+      if (err) {
+        res.send(err);
+      }
+      else {
+        res.send(doc);
+      }
+    })
+})
 
-// })
 // GET article by its ObjectID
 // app.get('/articles/:id', function(req, res) {
 // // Use the ID from the parameter and prepare a query that finds the matching one in the db
