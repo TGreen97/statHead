@@ -25,6 +25,7 @@
     "core-js": "^2.4.1",
     "express": "^4.14.0",
     "express-session": "^1.14.1",
+    "favicon": "0.0.2",
     "mongoose": "^4.6.0",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
@@ -32,6 +33,7 @@
     "passport-oauth": "^1.0.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
+    "react-router": "^2.8.1",
     "request": "^2.74.0",
     "validator": "^6.0.0"
   },

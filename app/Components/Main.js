@@ -1,8 +1,11 @@
 // Include React
 var React = require('react');
 var axios = require('axios');
+var Link  = require('react-router').Link;
+var browserHistory = require('react-router').browserHistory;
+
 // Here we include all of the sub-components
-// var Form = require('./Children/Form');
+// var Banner = require('./Children/banner.js');
 // var Results = require('./Children/Results');
 // var History = require('./Children/History');
 
@@ -12,153 +15,154 @@ var helpers = require('./Utils/helpers.js');
 // This is the main component.
 var Main = React.createClass({
 
-  showLock: function() {
-    this.lock.show();
-  },
-
   getInitialState: function(){
     return {
       // searchTerm: "",
-      // isLoggedIn= false;
-      statResults: "",
+      isLoggedIn: false,
+      statResultsNBA: "",
+      statResultsMLBBatting: "",
+      statResultsMLBPitching: "",
+      statResultsNFLTeams: "",
       // history: [] /*Note how we added in this history state variable*/
     }
   },
 
   componentWillMount: function(){
-   // Get Player stats as a JSON
-    // var statResults = [];
-
-    helpers.getStats()
+   // Get Player stats as JSON
+    helpers.getStatsNBA()
       .then(function(response) {
         // console.log("Stats", response.data);
 
         this.setState({
-          statResults: response.data
+          statResultsNBA: response.data,
+          limit: 10,
+        })
+      }.bind(this))
+  },
+  componentWillMount: function(){
+    helpers.getStatsMLBBatting()
+      .then(function(response) {
+        // console.log("Stats", response.data);
+
+        this.setState({
+          statResultsMLBBatting: response.data,
+          limit: 10,
+        })
+      }.bind(this))
+  },
+  componentWillMount: function(){
+    helpers.getStatsMLBPitching()
+      .then(function(response) {
+        // console.log("Stats", response.data);
+
+        this.setState({
+          statResultsMLBPitching: response.data,
+          limit: 10,
+        })
+      }.bind(this))
+  },
+  componentWillMount: function(){
+    helpers.getStatsNFLTeams()
+      .then(function(response) {
+        // console.log("Stats", response.data);
+
+        this.setState({
+          statResultsNFLTeams: response.data,
+          limit: 10,
         })
       }.bind(this))
   },
 
-    // $.getJSON('/StatsNBAPlayer', function(data) {
-    //   for (var i=0; i<data.length; i++) {
-    //     $('#stats').append('<div class="well well-sm"> <p data-id="' + data[i]._id + '">'+ data[i].title + '<br />'+ data[i].link + '</p> </div>');
-    // }
-
-  //   axios.get('/StatsNBAPlayer')
-  //     .then(function(results){
-  //       this.setState({
-
-  //       })
-  //     })
-  // }
-// });
-  // Here we set a generic state associated with the number of clicks
-  // getInitialState: function(){
-  //   return {
-  //     // searchTerm: "",
-  //     results: "",
-  //     // history: [] /*Note how we added in this history state variable*/
-  //   }
-  // },
-
-  // This function allows childrens to update the parent.
-  // setTerm: function(term){
-  //   this.setState({
-  //     searchTerm: term
-  //   })
-  // },
-
-  // If the component changes (i.e. if a search is entered)...
-  // componentDidUpdate: function(prevProps, prevState){
-
-  //   if(prevState.searchTerm != this.state.searchTerm){
-  //     console.log("UPDATED");
-
-  //     // Run the query for the address
-  //     helpers.runQuery(this.state.searchTerm)
-  //       .then(function(data){
-  //         if (data != this.state.results)
-  //         {
-  //           console.log("Address", data);
-
-  //           this.setState({
-  //             results: data
-  //           })
-
-  //           // After we've received the result... then post the search term to our history.
-  //           helpers.postHistory(this.state.searchTerm)
-  //             .then(function(data){
-  //               console.log("Updated!");
-
-  //               // After we've done the post... then get the updated history
-  //               helpers.getHistory()
-  //                 .then(function(response){
-  //                   console.log("Current History", response.data);
-  //                   if (response != this.state.history){
-  //                     console.log ("History", response.data);
-
-  //                     this.setState({
-  //                       history: response.data
-  //                     })
-  //                   }
-  //                 }.bind(this))
-  //             }.bind(this)
-  //           )
-  //         }
-  //       }.bind(this))
-
-  //     }
-  // },
-
-  // The moment the page renders get the History
-  // componentDidMount: function(){
-
-  //   // Get the latest stats.
-  //   helpers.getStats()
-  //     .then(function(response){
-  //       if (response != this.state.stats){
-  //         console.log ("Stats", response.data);
-
-  //         this.setState({
-  //           stats: response.data
-  //         })
-  //       }
-  //     }.bind(this))
-  // },
+  // The moment the page renders
+  componentDidMount: function(){
+    axios.get(window.location.origin + "/authorize", {withCredentials: true}).then(response => {
+      if(!response.data.isAuthorized){
+        browserHistory.push("/");
+      }
+      this.setState({loggedIn: response.data.isAuthorized});
+    });
+  },
+  handleLogout: function(){
+    var that = this;
+    axios.get(window.location.origin + "/logout").then(response => {
+      console.log("User has signed out.");
+      this.setState({loggedIn: response.data.isAuthorized});
+      browserHistory.push("/");
+    });
+  },
 
   // Here we render the function
   render: function(){
     console.log("rendered")
 
-    var myStats = null;
+    var myStatsNBA    = null;
+    var myStatsMLBBat = null;
+    var myStatsNFL    = null;
 
     // Login authentication here
-    if (this.state.statResults) {
-      console.log("function ran")
-      myStats = this.state.statResults.map(function(data, index){
+    if (this.state.loggedIn) {
+      //console.log("function ran")
+      myStatsNBA = this.state.statResultsNBA.map(function(data, index){
         return <div key={index} id="played" className="short">
           <div className="games">
             <span> { data.player } </span>
-            <span> { data.position } </span>
-            <span> { data.perRtg } </span>
+            <span> { data.totWinShare } </span>
+            <span> { data.boxPlusMinus } </span>
+            <span> { data.vORP } </span>
+          </div>
+        </div>
+      })
+      myStatsMLBBat = this.state.statResultsMLBBatting.map(function(data, index){
+        return <div key={index} id="played" className="short">
+          <div className="games">
+            <span> { data.name } </span>
+            <span> { data.wRAA } </span>
+            <span> { data.wOBA } </span>
+            <span> { data.wRCPlus } </span>
+          </div>
+        </div>
+      })
+      myStatsNFL = this.state.statResultsNFLTeams.map(function(data, index){
+        return <div key={index} id="played" className="short">
+          <div className="games">
+            <span> { data.teamName } </span>
+            <span> { data.totDAVE } </span>
+            <span> { data.offDVOA } </span>
+            <span> { data.defDVOA } </span>
           </div>
         </div>
       })
     }
     return(
+      <section>
+       { this.state.loggedIn ?
+          <Link to="/userProfile"></Link>
+          :
+          <a href="/auth/google"></a> }
+{/*        <div className="header-global-wrapper">
+         <header className="header-global">
+           <div className="header-global-top">
+             <h2 className="header-wrapper logo">
+               <a href="/" className="header-global-logo-link">
+                 <span className="site-logo">statHead.</span>
+               </a>
+             </h2>
+             <a className="header-google" style={{width: 100 + 'px'}, {lineHeight: 27 + 'px'}} title="google-signOut" href={"/logout"} >Sign out</a> */}
+            {/* //  onClick={signOut()} <script>
+             //    signout = function {signOut()} {
+             //      var auth2 = gapi.auth2.getAuthInstance();
+             //      auth2.signOut().then(function () {
+             //       console.log('User signed out.');
+             //     });
+             //   }
+             //  </script>
+            </div>
+          </header>
+        </div> */}
 
-      <div id="team-container">
-{/*              <div className="g-signin2 login-box" data-onsuccess="onSignIn">
-                    <a href="#close" onClick={this.showLock}></a>
-              </div>*/}
-        <div id="games-container">
-    {/*        <Modal show={this.state.showModal} onHide={this.close}>
-              <div onClick={this.close} className="g-signin2 " data-onsuccess="onSignIn"></div>
-            </Modal>*/}
+        <userProfile />
+      </section>
 
-            {/* myStats */}
-        </div>
-      </div>
     )
   }
 });
