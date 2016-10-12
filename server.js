@@ -44,8 +44,9 @@ app.use(passport.session());
 
 // -------------------------------------------------
 
-// MongoDB Configuration configuration (Change this URL to your own DB)
-mongoose.connect('mongodb://localhost/statHead');
+// MongoDB Configuration configuration (Change this URL to your own DB)mongodb://localhost/statHead
+// mLab:
+mongoose.connect('mongodb://heroku_5qg074fh:l7naemt99j1c09mstkjutqot0s@ds015939.mlab.com:15939/heroku_5qg074fh');
 var db = mongoose.connection;
 
 db.on('error', function (err) {
